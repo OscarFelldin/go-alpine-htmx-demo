@@ -34,16 +34,19 @@ func init() {
 // handlers
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	json, err := json.Marshal(todos)
-
 	if err != nil {
 		log.Fatal(err)
 	}
-
+	
 	tmpl := templates["index.html"]
 	tmpl.ExecuteTemplate(w, "index.html", map[string]template.JS{"Todos": template.JS(json)})
 }
 
 func main() {
-	http.HandleFunc("/", indexHandler)
-	log.Fatal(http.ListenAndServe(":8000", nil))
+    fs := http.FileServer(http.Dir("public"))
+    http.Handle("/", fs)
+    
+    http.HandleFunc("/start", indexHandler)
+    
+    log.Fatal(http.ListenAndServe(":8000", nil))
 }
