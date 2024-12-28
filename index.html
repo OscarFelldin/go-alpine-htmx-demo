@@ -8,9 +8,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <!-- <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script> -->
     <script defer src="/js/cdn.js"></script>
+    <script defer src="/js/htmx.v2-0-4.min.js"></script>
 </head>
 <body class="container">
-test
     <div class="row mt-4 g-4" x-data="{todos: {{ .Todos }} }">
         <div class="col-8">
             <h1 class="mb-4">Todo Items</h1>
@@ -40,8 +40,16 @@ test
         <div class="col-4">
             <h1 class="mb-4">Add Todo</h1>
 
-            <form>
-                <!-- TBC -->
+            <form hx-post="/submit-todo/" hx-target="#todo-table-body" hx-swap="beforeend">
+                <div class="mb-2">
+                    <label>Todo name</label>
+                    <input type="text" name="name" class="form-control" />
+                </div>
+                <div class="mb-2">
+                    <label>Is Completed?</label>
+                    <input type="checkbox" name="completed" value="true" />
+                </div>
+                <input type="submit" value="Submit" class="btn btn-primary"/>
             </form>
         </div>
 
